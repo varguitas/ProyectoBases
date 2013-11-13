@@ -1,0 +1,52 @@
+@charset "utf-8";
+
+/* ESTANDARIZACION */
+/* TEXTO BLANCO CON FONDO GRIS */
+.span-info {
+	background: #7d7d7d;
+	border-radius: 0.5em;
+	font-weight: bold;
+	padding: 0.5em 0.5em;
+}
+/* TEXTO BLANCO CON FONDO AZUL */
+.text_bg_azul{
+	background:#0d4569;
+	border-radius:10px;
+	color: #FFF;
+	font-size:16px;
+	font-family:"Times New Roman", Times, serif;
+	height:75%;
+	text-align:left;
+	padding:0.5em;
+	width:100%;
+	margin-top:4px;
+	filter:alpha(opacity=100%);
+	opacity:0.80;
+}
+/* CUANDO NO HAY RESULTADOS DISPONIBLES */
+.no_disponible {
+	color: #FFF;
+	font-weight: bold;
+	font-size: 18px;
+	text-align: center;
+}
+/* PARA AGREGAR ESPACIO SUPERIOR CUANDO SE OCULTA A CAUSA DEL HEADER */
+.top-fixer {
+	clear:both;
+	margin-top: 3.5em;
+}
+/* CONTENEDORES ESTANDAR */
+.basic_container{
+	width:calc ( 100% - 3em);
+	text-align:center;
+	border-width:thin;
+	border-color:#95989a;
+	border-style:solid;
+	cursor:pointer;
+}
+
+.basic_container:hover{
+	background-color:#999;
+	filter:alpha(opacity=100%);
+	opacity:0.50;
+	}
