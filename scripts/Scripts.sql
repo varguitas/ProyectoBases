@@ -1026,10 +1026,45 @@ begin
 	DROP PROCEDURE add_multimedia
 end
 GO
-CREATE PROCEDURE add_multimedia (@ID_MULTIMEDIA int, @NOMBRE varchar(100), @DESCRIPCION varchar(100), @FORMATO varchar(100), @TAMANO int, @TIPO_MULTIMEDIA char(1),@ARCHIVO varbinary(max)) AS
+CREATE PROCEDURE add_multimedia (@ID_MULTIMEDIA int, @NOMBRE varchar(100), @DESCRIPCION varchar(100), @FORMATO varchar(100), @TAMANO int, @TIPO_MULTIMEDIA char(1),@ARCHIVO varchar(100)) AS
 BEGIN
-	INSERT INTO MULTIMEDIA (NOMBRE,DESCRIPCION,FORMATO,TAMANO,TIPO_MULTIMEDIA,BulkColumn) SELECT @NOMBRE,@DESCRIPCION,@FORMATO,@TAMANO,@TIPO_MULTIMEDIA,ARCHIVO FROM OPENROWSET (BULK @RUTA, SINGLE_BLOB) AS Archivo
-	UPDATE MULTIMEDIA SET MULTIMEDIA.ARCHIVO = (SELECT @RUTA.* from Openrowset(Bulk 'C:\Delete\B.bmp', Single_Blob) @RUTA) WHERE ID_MULTIMEDIA=@ID_MULTIMEDIA
+	IF @TIPO_MULTIMEDIA = 'V'
+	BEGIN
+		EXEC add_multimedia_video (@NOMBRE,@DESCRIPCION,@FORMATO,@TAMANO,@TIPO_MULTIMEDIA)
+	END
+	IF @TIPO_MULTIMEDIA = 'F'
+	BEGIN
+		EXEC add_multimedia_imagen (@NOMBRE,@DESCRIPCION,@FORMATO,@TAMANO,@TIPO_MULTIMEDIA)
+	END
 END
+GO
 GRANT EXEC ON add_multimedia TO adm_user;
+GO
+
+-- ADD_MULTIMEDIA_IMAGEN
+IF object_id('add_multimedia_imagen') is not null
+begin
+	DROP PROCEDURE add_multimedia_imagen
+end
+GO
+CREATE PROCEDURE add_multimedia_imagen (@ID_MULTIMEDIA int, @NOMBRE varchar(100), @DESCRIPCION varchar(100), @FORMATO varchar(100), @TAMANO int, @TIPO_MULTIMEDIA char(1),@ARCHIVO varchar(100)) AS
+BEGIN
+	INSERT INTO MULTIMEDIA VALUES (@NOMBRE,@DESCRIPCION,@FORMATO,@TAMANO,@TIPO_MULTIMEDIA,(SELECT * FROM OPENROWSET (BULK 'C:\Users\Benjamín Calvo\Desktop\Github\ProyectoBases\scripts\NuevaImagen.jpeg', Single_Clob)))
+END
+GO
+GRANT EXEC ON add_multimedia_imagen TO adm_user;
+GO
+
+-- ADD_MULTIMEDIA_VIDEO
+IF object_id('add_multimedia_video') is not null
+begin
+	DROP PROCEDURE add_multimedia_video
+end
+GO
+CREATE PROCEDURE add_multimedia_video (@ID_MULTIMEDIA int, @NOMBRE varchar(100), @DESCRIPCION varchar(100), @FORMATO varchar(100), @TAMANO int, @TIPO_MULTIMEDIA char(1),@ARCHIVO varchar(100)) AS
+BEGIN
+	INSERT INTO MULTIMEDIA VALUES (@NOMBRE,@DESCRIPCION,@FORMATO,@TAMANO,@TIPO_MULTIMEDIA,(SELECT * FROM OPENROWSET (BULK 'C:\Users\Benjamín Calvo\Desktop\Github\ProyectoBases\scripts\NuevoVideo.jpeg', Single_Clob)))
+END
+GO
+GRANT EXEC ON add_multimedia_video TO adm_user;
 GO
