@@ -1,4 +1,5 @@
 <?php
+	include("../system/conectInfo.php");
 	/*
 	TORNEO.PHP
 	OBTENER LA INFORMACION DE UN TORNEO
@@ -69,7 +70,7 @@
                             <div class="flecha"></div>
                         </div>
                         
-                        <div id="torneo_to_programacion" class="divisor">
+                        <div id="torneo_to_posiciones" class="divisor">
                             <span>Tabla de Posiciones</span>
                             <div class="flecha"></div>
                         </div>

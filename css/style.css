@@ -49,6 +49,13 @@ body {
 	width: 100%;
 	z-index: -1;
 }
+@media (min-width: 768px){
+	#background {
+		background-image:url(../img/back_big.png);
+		background-size: 100% 100%;
+		height: 100%;
+	}
+}
 #menu-left {
 	cursor: pointer;
 	background-image:url(../img/icons/menu-icon.png);
@@ -156,6 +163,9 @@ html>body #footer {
 	margin: 0;
 	width: 100%;
 }
+#menu-left-items .menu_option:hover {
+	background-color:#333;
+}
 #menu-left-items .menu_option h2 {
 	color: #95989a;
 	font-size:200%;
@@ -209,11 +219,14 @@ html>body #footer {
 /* PROGRAMACION PARTIDO */
 .programacion_partido{
 	background:#C7C7C7;
-	cursor:pointer;
 	display:block;
 	height:8.5em;
 	margin: 1.25em 1em;
 	width:calc ( 100% - 3em);
+}
+
+.programacion_partido.partido_completado {
+	cursor:pointer;
 }
 
 .programacion_partido .titulo{
@@ -292,6 +305,10 @@ html>body #footer {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffc4c5c6', endColorstr='#ff95989a', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
+/* PARA OCULTAR PARTIDOS NO SELECCIONADOS */
+#partidos_completos, #partidos_futuros {
+	display:none;
+}
 /* ESTEBAN TORNEO.PHP */
 .descripcion{
 	display:block;
@@ -305,7 +322,7 @@ html>body #footer {
 .descripcion .descripcion_texto{
 
 	color: #FFF;
-	font-size: 1.5em;
+	font-size: 1em;
 	text-align:left;
 	width:100%;
 	
@@ -409,12 +426,38 @@ html>body #footer {
 	margin:10px;
 	}
 .fecha_info .fecha_ini{
-	font-size:1.5em;
+	font-size:1em;
 	heigh:100%;
 	margin: 0em 0.59em;
 }
 .fecha_info .fecha_fin{
-	font-size:1.5em;
+	font-size:1em;
 	heigh:100%;
 	margin: 0em 0.59em;
+}
+/* PARTIDO.PHP - ESTEBAN */
+.t_amarilla{
+	height:1em;
+	width:0.8em;
+	background-color:yellow;
+	display: inline-block;
+}
+
+.t_roja{
+	height:1em;
+	width:0.8em;
+	background-color:red;
+	display: inline-block;
+}
+/* TABLA DE POSICIONES - BENJAMIN */
+.tabla_posiciones table thead tr{
+	background:#0D4569;
+	color:#FFF;
+}
+.tabla_posiciones table tbody{
+	background: #C7C7C7;
+	color: #3e3e3e;
+}
+#tabla_de_posiciones {
+	font-size: 0.8em;
 }

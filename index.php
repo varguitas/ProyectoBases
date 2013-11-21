@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
     <meta name="description" content="Proyecto de bases de datos">
     <meta name="viewport" content="width=device-width initial-scale=1">
-    <link rel="stylesheet" media="all" type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" media="all" type="text/css" href="css/jquery-ui-1.10.3.custom.min.css" />
     <link rel="stylesheet" media="all" type="text/css" href="css/bootstrap.css" />
     <link rel="stylesheet" media="all" type="text/css" href="css/bootstrap-theme.css" />
     <link rel="stylesheet" media="all" type="text/css" href="css/magic.min.css" />
@@ -53,8 +53,8 @@
     <!--FIXED DE PAGINA-->
     <div id="background"></div>
     
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/index.js"></script>
 </body>

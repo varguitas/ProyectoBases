@@ -1,6 +1,5 @@
 <?php
-	$connectionInfo = array( "Database"=>"Proyecto", "UID"=>"app_user", "PWD"=>"Bases123");
-	$conn = sqlsrv_connect( 'VARGAS-PC', $connectionInfo);
+	include("../system/conectInfo.php");
 	$sql = "EXEC get_act_torneo";
 	$params = array();
 	$stmt = sqlsrv_query( $conn, $sql, $params);
