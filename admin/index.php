@@ -147,6 +147,22 @@
 	  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
       <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
       <link rel="stylesheet" href="/resources/demos/style.css" />    
-    <script src="js/index.js"></script>
+    <script>
+	$(document).ready(function(e) {
+		$("#admin_configuraciones").click(function(e) {
+			var tid = $("#sidebar").children(".list-group").children("a.active").attr("data-tid");
+			window.location.href = "/ProyectoBases/admin/data_insertion/configuraciones.php?tid="+tid;
+		});
+		
+		$("#control_informacion").click(function(e) {
+			var tid = $("#sidebar").children(".list-group").children("a.active").attr("data-tid");
+			window.location.href = "/ProyectoBases/admin/data_insertion/control_informacion.php?tid="+tid;
+		});
+		$("#sidebar").children(".list-group").children(".list-group-item").click(function(){
+			$("#sidebar").children(".list-group").children(".list-group-item.active").removeClass("active");
+			$(this).addClass("active");
+		});
+	});
+    </script>
   </body>
 </html>

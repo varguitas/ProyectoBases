@@ -45,18 +45,7 @@
 	$( "#sortable1, #sortable2" ).sortable({
           connectWith: ".connectedSortable"
     }).disableSelection();
-
-	
-	$("#admin_configuraciones").click(function(e) {
-		var tid = $("#sidebar").children(".list-group").children("a.active").attr("data-tid");
-        window.location.href = "/ProyectoBases/admin/data_insertion/configuraciones.php?tid="+tid;
-    });
-	
-	$("#control_informacion").click(function(e) {
-		var tid = $("#sidebar").children(".list-group").children("a.active").attr("data-tid");
-        window.location.href = "/ProyectoBases/admin/data_insertion/control_informacion.php?tid="+tid;
-    });
-$('#add_alineacion').click(function(){
+	$('#add_alineacion').click(function(){
 	   $('#tabla_alineacion_jugadores_inscritos tbody tr.selected').appendTo('#tabla_alineacion tbody');
 	   $('#tabla_alineacion tbody tr.selected').removeClass('selected');
 	   $('#tabla_alineacion tbody tr td input').attr('disabled',"disabled");
