@@ -259,14 +259,9 @@
   										MODAL WINDOW
   															---------------------------->
      
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
- 	<script src="../../js/jquery-1.10.2.min.js"></script>
-  	<script src="../../js/jquery-ui-1.10.3.custom.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/offcanvas.js"></script>
-    <script src="../js/index.js"></script>
+ 	<?php 
+	include ("../html/script.php");
+	?>
     <script>
 		$(".equipo_inscrito_li").click(function(){
 			var iid = $(this).attr("data-iid");
@@ -436,4 +431,4 @@ actualizar_seleccionables();
 	});
 	</script>
   </body>
-</html>>>>>>>
+</html>>>>>>>>>
