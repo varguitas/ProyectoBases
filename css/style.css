@@ -461,3 +461,53 @@ html>body #footer {
 #tabla_de_posiciones {
 	font-size: 0.8em;
 }
+
+/* ESTEBAN .PHP */
+.basic_container{
+	width:calc ( 100% - 3em);
+	text-align:center;
+	border-width:thin;
+	border-color:#95989a;
+	border-style:solid;
+	cursor:pointer;
+}
+
+.basic_container:hover{
+	background-color:#999;
+	filter:alpha(opacity=100%);
+	opacity:0.50;
+}
+
+
+/*ESTEBAN EQUIPOS.PHP*/
+.basic_container2{
+	width:calc ( 100% - 3em);
+	text-align:left;
+	padding-left:1.5em;
+	padding-bottom:1em;
+	cursor:pointer;
+	display:block;
+}
+
+.basic_container2:hover{
+	background-color:#BFBFBF;
+	filter:alpha(opacity=100%);
+	opacity:0.75;
+}
+
+.basic_container2 div{
+	height:50px;
+	width:50px;
+	background-color:green;
+	display:inline-block;
+}
+
+.basic_container2 h4{
+	display:inline-block;
+	margin-left:0.5em;
+}
+
+.margin1{
+	margin-top:2em;
+	margin-bottom:2em;	
+}
