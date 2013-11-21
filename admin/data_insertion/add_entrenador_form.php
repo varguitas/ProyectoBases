@@ -52,7 +52,7 @@
 				?>
           <!-- /Jumbotron -->
           <div class="jumbotron">
-            <button type="button" class="btn btn-primary btn-lg toggle_button toggle_button">Agregar Entrenador</button>
+            <button type="button" class="btn btn-primary btn-lg toggle_button">Agregar Entrenador</button>
             <div class="toggled_container">
                 <form class="form-horizontal" role="form" action="add_entrenador.php" method="POST">
                   <div class="form-group">
