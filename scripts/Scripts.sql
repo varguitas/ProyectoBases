@@ -973,3 +973,49 @@ GO
 REVOKE ALL ON MULTIMEDIA TO app_user;
 GO
 
+--GET_PROGRAMACION
+if object_id('get_programacion') is not null
+begin
+	DROP PROCEDURE get_programacion
+end
+GO
+CREATE PROCEDURE get_programacion(@ID_PARTIDO int, @IDS varchar(max)) AS
+	BEGIN
+		DECLARE @xml_ids XML = @IDS
+		CREATE TABLE #jugadores (
+			ID_JUGADOR int,
+			TITULAR bit,
+			NUMERO_CAMISETA int
+		)
+		INSERT INTO #jugadores
+			SELECT C.value('(./jugador)[1]','int'),C.value('(./titular)[1]','bit'),C.value('(./numero_camiseta)[1]','int')
+			FROM @xml_ids.nodes('/ids/*') T(C)
+		DECLARE c_jugadores CURSOR
+		FOR
+			SELECT *
+			FROM #jugadores
+		OPEN c_jugadores
+		DECLARE @ID_JUGADOR int
+		DECLARE @TITULAR bit
+		DECLARE @NUMERO_CAMISETA int
+		FETCH NEXT FROM c_jugadores INTO @ID_JUGADOR, @TITULAR, @NUMERO_CAMISETA
+		WHILE @@FETCH_STATUS = 0
+		BEGIN
+			INSERT INTO ALINEACION VALUES (@ID_PARTIDO,@ID_JUGADOR,@TITULAR,@NUMERO_CAMISETA)
+			FETCH NEXT FROM c_jugadores INTO @ID_JUGADOR, @TITULAR, @NUMERO_CAMISETA
+		END
+		DEALLOCATE c_jugadores
+		DROP TABLE #jugadores
+		IF @@ERROR <> 0
+		BEGIN
+			ROLLBACK TRANSACTION
+			RAISERROR('NO SE LOGRO',16,1)
+		END
+		ELSE
+		BEGIN
+			COMMIT TRANSACTION
+		END
+	END
+GO
+GRANT EXEC ON get_programacion TO adm_user;
+GO
