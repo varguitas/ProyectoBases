@@ -62,19 +62,44 @@
           
           </div><!--/row-->
         </div><!--/span-->
+        
+                  <div class="row" style="padding:2em">
+          
+          
+            <?php
+            $sql = "EXEC get_formatos";
+			$params = array();
+            $stmt = sqlsrv_query( $conn, $sql,$params);
+			if ($stmt === false ) {
+				
+			}
+			if (sqlsrv_has_rows($stmt)) {
+				$formato = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC);
+				$formato_li = "<li data-fid=".$formato["ID_FORMATO"]." class='list-group-item active formato_li'>".$formato["ID_FORMATO"]."</li>";
+				$contenido = "<div class='formato_contenido active' data-fid=".$formato["ID_FORMATO"]."><h1 style='display:inline-block'>".$formato["ID_FORMATO"]."</h1><button type='button' class='btn btn-danger pull-right'>Eliminar</button>
+            <h3>Descripcion</h3>
+            <p>".$formato["DESCRIPCION"]."</p>";
+				while ($formato = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
+					$formato_li = $formato_li."<li data-fid=".$formato["ID_FORMATO"]." class='list-group-item formato_li'>".$formato["ID_FORMATO"]."</li>";
+					$contenido = $contenido."<div class='formato_contenido' data-fid=".$formato["ID_FORMATO"]."><h1 style='display:inline-block'>".$formato["ID_FORMATO"]."</h1><button type='button' class='btn btn-danger pull-right'>Eliminar</button>
+				<h3>Descripcion</h3>
+				<p>".$formato["DESCRIPCION"]."</p>";
+				}
+			} else {
+				$formato_li ="<li class='list-group-item'>No hay formatos inscritos</li>";
+			}
+			echo $contenido;
+			?>
+            
+            
+          
+          </div><!--/row-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
           <div class="list-group">
-            <a href="#" class="list-group-item active">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
+			<?php
+		 		echo $formato_li;
+         	?>
           </div>
         </div><!--/span-->
       </div><!--/row-->
@@ -94,6 +119,23 @@
 	$(document).ready(function(){
 		$(".add_ok").delay(4000).fadeOut();
 		$(".add_error").delay(6000).fadeOut();
+		
+		$(".toggle_button").click(function(){
+			$( ".toggled_container" ).toggle( "blind");		
+		});
+			
+		$("#sidebar").children(".list-group").children(".list-group-item").click(function(){
+			$("#sidebar").children(".list-group").children(".list-group-item.active").removeClass("active");
+			$(this).addClass("active");
+		});
+		
+		$(".formato_li").click(function(){
+			var fid = $(this).attr("data-fid");
+			$(".formato_li.active").removeClass("active");
+			$(".formato_li[data-fid="+fid+"]").addClass("active");
+			$(".formato_contenido.active").removeClass("active");
+			$(".formato_contenido[data-fid="+fid+"]").addClass("active");
+		});
 	});
 	</script>
   </body>
