@@ -98,20 +98,36 @@
           
           <div class="row" style="padding:2em">
             
-            <h1 style="display:inline-block">Nombre del Equipo</h1>
-            <button type="button" class="btn btn-danger">Eliminar</button>
-            <button type="button" class="btn btn-success">Editar</button>
-            
-           
-           	 <h3>Historia</h3>
-            <div class="text_bg_azul_admin">Descripcion</div>
-        
-            
-            <h3>Ubicación</h3>
-            <p>Default</p>
-            <h3>Fecha de Fundación</h3>
-            <p>yyyy/mm/dd</p>
-            
+			<?php
+				$sql = "EXEC get_equipos";
+				$stmt = sqlsrv_query( $conn, $sql);
+				if (sqlsrv_has_rows($stmt)) {
+					$equipo = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC);
+					$equipo_li = "<li data-eid=".$equipo["ID_EQUIPO"]." class='list-group-item active equipo_li'>".$equipo["NOMBRE"]."</li>";
+					$contenido = "<div class='equipo_contenido active' data-eid=".$equipo["ID_EQUIPO"]."><h1 style='display:inline-block'>".$equipo["NOMBRE"]."</h1><button type='button' class='btn btn-danger pull-right'>Eliminar</button>
+				<h3>Historia</h3>
+				<div class=".$equipo["HISTORIA"].">Descripcion</div>
+				<h3>Ubicación</h3>
+				<p>".$equipo["UBICACION"]."</p>
+				<h3>Fecha Fundación</h3>
+				<p>".$equipo["FECHA_FUNDACION"]."</p>
+				</div>";
+					while ($equipo = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
+						$equipo_li = $equipo_li."<li data-eid=".$equipo["ID_EQUIPO"]." class='list-group-item equipo_li'>".$equipo["NOMBRE"]."</li>";
+						$contenido = $contenido."<div class='equipo_contenido' data-eid=".$equipo["ID_EQUIPO"]."><h1 style='display:inline-block'>".$equipo["NOMBRE"]."</h1><button type='button' class='btn btn-danger pull-right'>Eliminar</button>
+				<h3>Historia</h3>
+				<div class=".$equipo["HISTORIA"].">Descripcion</div>
+				<h3>Ubicación</h3>
+				<p>".$equipo["UBICACION"]."</p>
+				<h3>Fecha Fundación</h3>
+				<p>".$equipo["FECHA_FUNDACION"]."</p>
+				</div>";
+					}
+				} else {
+					$equipo_li = "<li class='list-group-item'>No hay equipos inscritos</li>";
+				}
+				echo $contenido;
+			?>
 			
             
           
@@ -120,16 +136,9 @@
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
           <div class="list-group">
-            <a href="#" class="list-group-item active">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
+			<?php
+		 		echo $equipo_li;
+         	?>
           </div>
         </div><!--/span-->
       </div><!--/row-->
@@ -151,6 +160,26 @@
 	$(document).ready(function(){
 		$(".add_ok").delay(4000).fadeOut();
 		$(".add_error").delay(6000).fadeOut();
+		
+		$(".toggle_button").click(function(){
+			$( ".toggled_container" ).toggle( "blind");		
+		});
+		
+		$( "#datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});	
+	
+		$("#sidebar").children(".list-group").children(".list-group-item").click(function(){
+		$("#sidebar").children(".list-group").children(".list-group-item.active").removeClass("active");
+		$(this).addClass("active");
+			});
+	
+		$(".arbitro_li").click(function(){
+		var eid = $(this).attr("data-eid");
+		$(".arbitro_li.active").removeClass("active");
+		$(".arbitro_li[data-eid="+eid+"]").addClass("active");
+		$(".arbitro_contenido.active").removeClass("active");
+		$(".arbitro_contenido[data-eid="+eid+"]").addClass("active");
+			});
+		
 	});
 	</script>
   </body>
