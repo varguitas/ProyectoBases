@@ -55,18 +55,35 @@
 
         <div class="col-xs-12 col-sm-9">          
           <div class="row">
+            <?php
+            	include("../system/conectInfo.php");
+				$sql = "EXEC get_torneo_info ?";
+				$params = array($tid);
+				$stmt = sqlsrv_query($conn,$sql,$params);
+				if ($stmt===false){
+					die(print_r(sqlsrv_errors(),true));
+				}
+				$torneo = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC);
+				if ($torneo["ESTADO_TORNEO"] == "F") {
+					echo "<h1>El torneo seleccionado ya ha finalizado, por lo que no puede modificar los datos.</h1>";
+				} else if ($torneo["ESTADO_TORNEO"] == "R") {
+			?>
             
             <div class="col-12 col-sm-12 col-lg-12">
             	<a href="add_inscripcion_equipo_form.php?tid=<?php echo $tid; ?>"><div class="configuraciones_option btn-default">Inscribir equipos</div></a>
             </div>
-            <hr>
             <div class="col-12 col-sm-12 col-lg-12">
             	<a href="iniciar_torneo.php?tid=<?php echo $tid; ?>"><div class="configuraciones_option btn-success">Iniciar Torneo</div></a>
             </div>
+            <hr>
+            <?php
+				}
+				if ($torneo["ESTADO_TORNEO"] == "E") {
+			?>
             <div class="col-12 col-sm-12 col-lg-12">
             	<div class="configuraciones_option btn-default">Modificar programación</div>
             </div>
-          
+          		<?php } ?>
           </div><!--/row-->
         </div><!--/span-->
       </div><!--/row-->

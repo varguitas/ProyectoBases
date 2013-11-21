@@ -147,8 +147,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/offcanvas.js"></script>
 	  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-      <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-      <link rel="stylesheet" href="/resources/demos/style.css" />    
+      <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>    
     <script>
 	$(document).ready(function(e) {
 		$("#admin_configuraciones").click(function(e) {

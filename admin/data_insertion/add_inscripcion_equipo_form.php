@@ -142,7 +142,11 @@
 			} else {
 				$equipos_inscritos_li = "<li class='list-group-item'>No hay equipos inscritos</li>";
 			}
-			echo $contenido;
+			if (isset($contenido)) {
+				echo $contenido;
+			} else {
+				echo "<h1>No hay equipos inscritos</h1>";
+			}
 			?>
           </div><!--/row-->
         </div><!--/span-->
@@ -263,6 +267,9 @@
 	include ("../html/script.php");
 	?>
     <script>
+		$(".toggle_button").click(function(e) {
+            $(".toggled_container").toggle("blind");
+        });
 		$(".equipo_inscrito_li").click(function(){
 			var iid = $(this).attr("data-iid");
 			$(".equipo_inscrito_li.active").removeClass("active");
@@ -431,4 +438,4 @@ actualizar_seleccionables();
 	});
 	</script>
   </body>
-</html>>>>>>>>>
+</html>
