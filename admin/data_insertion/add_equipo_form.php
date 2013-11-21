@@ -172,12 +172,12 @@
 		$(this).addClass("active");
 			});
 	
-		$(".arbitro_li").click(function(){
+		$(".equipo_li").click(function(){
 		var eid = $(this).attr("data-eid");
-		$(".arbitro_li.active").removeClass("active");
-		$(".arbitro_li[data-eid="+eid+"]").addClass("active");
-		$(".arbitro_contenido.active").removeClass("active");
-		$(".arbitro_contenido[data-eid="+eid+"]").addClass("active");
+		$(".equipo_li.active").removeClass("active");
+		$(".equipo_li[data-eid="+eid+"]").addClass("active");
+		$(".equipo_contenido.active").removeClass("active");
+		$(".equipo_contenido[data-eid="+eid+"]").addClass("active");
 			});
 		
 	});
