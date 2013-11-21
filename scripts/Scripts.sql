@@ -1020,6 +1020,8 @@ GO
 GRANT EXEC ON get_programacion TO adm_user;
 GO
 
+
+
 -- ADD_MULTIMEDIA
 IF object_id('add_multimedia') is not null
 begin
@@ -1067,4 +1069,20 @@ BEGIN
 END
 GO
 GRANT EXEC ON add_multimedia_video TO adm_user;
+GO
+
+--GET_ALINEACION
+if object_id('get_alineacion') is not null
+begin
+	DROP PROCEDURE get_alineacion
+end
+GO
+CREATE PROCEDURE get_alineacion AS
+	BEGIN
+		SELECT ID_ALINEACION, ID_PARTIDO, ID_INSCRIPCION_JUGADOR, TITULAR, NUMERO_CAMISETA
+		FROM ALINEACION a
+		--FALTA METER ACÁ, QUE SEA DE UN SOLO EQUIPO, NO DE LOS DOS EQUIPOS QUE CONFORMAN EL PARTIDO
+	END
+GO
+GRANT EXEC ON get_alineacion TO adm_user;
 GO
