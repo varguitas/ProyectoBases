@@ -114,8 +114,6 @@
 						$contenido = $contenido."<div class='entrenador_contenido' data-entid=".$entrenador["ID_ENTRENADOR"]."><h1 style='display:inline-block'>".$entrenador["NOMBRE"]."</h1><button type='button' class='btn btn-danger pull-right'>Eliminar</button>
 				<h3>Fecha de Nacimiento</h3>
 				<p>".$entrenador["FECHA_NACIMIENTO"]."</p>
-				<h3>Tipo</h3>
-				<p>".$entrenador["TIPO_ENTRENADOR"]."</p>
 				<h3>Pais</h3>
 				<p>".$entrenador["PAIS"]."</p></div>";
 					}
