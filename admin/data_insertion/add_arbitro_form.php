@@ -144,8 +144,7 @@
 	<?php 
 	include ("../html/script.php");
 	?>
-    <script src="../js/index.js"></script>
-        <script>
+    <script>
 	$(document).ready(function(){
 		$(".add_ok").delay(4000).fadeOut();
 		$(".add_error").delay(6000).fadeOut();
@@ -156,6 +155,11 @@
 	
 	$( "#datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});	
 	});
+	
+	$("#sidebar").children(".list-group").children(".list-group-item").click(function(){
+	$("#sidebar").children(".list-group").children(".list-group-item.active").removeClass("active");
+	$(this).addClass("active");
+		});
 	</script>
   </body>
 </html>
