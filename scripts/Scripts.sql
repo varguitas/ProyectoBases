@@ -1019,3 +1019,16 @@ CREATE PROCEDURE get_programacion(@ID_PARTIDO int, @IDS varchar(max)) AS
 GO
 GRANT EXEC ON get_programacion TO adm_user;
 GO
+
+-- ADD_MULTIMEDIA
+IF object_id('add_multimedia') is not null
+begin
+	DROP PROCEDURE add_multimedia
+end
+GO
+CREATE PROCEDURE add_multimedia (@NOMBRE varchar(100), @DESCRIPCION varchar(100), @FORMATO varchar(100), @TAMANO int, @TIPO_MULTIMEDIA char(1)) AS
+BEGIN
+	INSERT INTO MULTIMEDIA VALUES(@NOMBRE,@DESCRIPCION,@FORMATO,@TAMANO,@TIPO_MULTIMEDIA)
+END
+GRANT EXEC ON add_multimedia TO adm_user;
+GO
