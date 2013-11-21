@@ -51,8 +51,8 @@
           
           <!-- /Jumbotron -->
           <div class="jumbotron">
-            <button type="button" class="btn btn-primary btn-lg" id="toggle_agregar_arbitro">Agregar Arbitro</button>
-            <div id="agregar_arbitro">
+            <button type="button" class="btn btn-primary btn-lg toggle_button">Agregar Arbitro</button>
+            <div class="toggled_container">
                 <form class="form-horizontal" role="form" action="add_arbitro.php" method="POST">
                   <div class="form-group">
                     <label class="col-sm-2 control-label">Nombre</label>
@@ -149,6 +149,12 @@
 	$(document).ready(function(){
 		$(".add_ok").delay(4000).fadeOut();
 		$(".add_error").delay(6000).fadeOut();
+		
+	$(".toggle_button").click(function(){
+		$( ".toggled_container" ).toggle( "blind");		
+	});
+	
+	$( "#datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});	
 	});
 	</script>
   </body>
