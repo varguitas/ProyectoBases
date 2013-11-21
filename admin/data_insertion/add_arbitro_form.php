@@ -10,8 +10,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Off Canvas Template for Bootstrap</title>
-
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.css" rel="stylesheet">
 
@@ -117,7 +115,7 @@
 				<p>".$arbitro["TIPO_ARBITRO"]."</p></div>";
 				}
 			} else {
-				$arbitro_li = $arbitro_li + "<li class='list-group-item'>No hay arbitros inscritos</li>";
+				$arbitro_li ="<li class='list-group-item'>No hay arbitros inscritos</li>";
 			}
 			echo $contenido;
 			?>
