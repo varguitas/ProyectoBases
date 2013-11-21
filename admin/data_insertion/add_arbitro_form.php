@@ -154,7 +154,7 @@
 	});
 	
 	$( "#datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});	
-	});
+
 	
 	$("#sidebar").children(".list-group").children(".list-group-item").click(function(){
 	$("#sidebar").children(".list-group").children(".list-group-item.active").removeClass("active");
@@ -168,6 +168,7 @@
 	$(".arbitro_contenido.active").removeClass("active");
 	$(".arbitro_contenido[data-aid="+aid+"]").addClass("active");
 		});
+	});
 	
 	</script>
   </body>

@@ -108,46 +108,51 @@
                     </div>
                   </div>          
                  </form> 
-             </div>    <!--cierra agregar_arbitro-->    
+             </div>    <!--cierra agregar_jugador-->    
           </div> <!-- /Jumbotron -->
           
           <div class="row" style="padding:2em">
-            
-            <h1 style="display:inline-block">Nombre del Jugador</h1>
-            <button type="button" class="btn btn-danger" style="margin-left:1em;margin-bottom:1em">Eliminar</button>
-            <button type="button" class="btn btn-success" style="margin-bottom:1em">Editar</button>
-                     
-            <h3>Edad</h3>
-            <p>00 años</p>
+            <?php
+            $sql = "EXEC get_jugadors";
+            $stmt = sqlsrv_query( $conn, $sql);
+			if (sqlsrv_has_rows($stmt)) {
+				$jugador = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC);
+				$jugador_li = "<li data-jid=".$jugador["ID_JUGADOR"]." class='list-group-item active jugador_li'>".$jugador["NOMBRE"]."</li>";
+				$contenido = "<div class='jugador_contenido active' data-jid=".$jugador["ID_JUGADOR"]."><h1 style='display:inline-block'>".$jugador["NOMBRE"]."</h1><button type='button' class='btn btn-danger pull-right'>Eliminar</button>
             <h3>Fecha de nacimiento</h3>
-            <p>yyyy/mm/dd</p>
+            <p>".$jugador["FECHA_NACIMIENTO"]."</p>
             <h3>Posición</h3>
-            <p>Default</p>
+            <p>".$jugador["POSICION"]."</p>
             <h3>País</h3>
-            <p>Default</p>
-            
-			
-            
-          
+            <p>".$jugador["PAIS"]."</p></div>";
+				while ($jugador = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
+					$jugador_li = $jugador_li."<li data-jid=".$jugador["ID_JUGADOR"]." class='list-group-item jugador_li'>".$jugador["NOMBRE"]."</li>";
+					$contenido = $contenido."<div class='jugador_contenido' data-jid=".$jugador["ID_JUGADOR"]."><h1 style='display:inline-block'>".$jugador["NOMBRE"]."</h1><button type='button' class='btn btn-danger pull-right'>Eliminar</button>
+            <h3>Fecha de nacimiento</h3>
+            <p>".$jugador["FECHA_NACIMIENTO"]."</p>
+            <h3>Posición</h3>
+            <p>".$jugador["POSICION"]."</p>
+            <h3>País</h3>
+            <p>".$jugador["PAIS"]."</p></div>";
+				}
+			} else {
+				$jugador_li = $jugador_li + "<li class='list-group-item'>No hay jugadores inscritos</li>";
+			}
+			echo $contenido;
+			?>
+
           </div><!--/row-->
         </div><!--/span-->
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
           <div class="list-group">
-            <a href="#" class="list-group-item active">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
+          	<?php
+		 		echo $jugador_li;
+         	?>
+
           </div>
         </div><!--/span-->
       </div><!--/row-->
-
       <hr>
 
       <footer>
@@ -163,6 +168,27 @@
 	$(document).ready(function(){
 		$(".add_ok").delay(4000).fadeOut();
 		$(".add_error").delay(6000).fadeOut();
+		
+			$(".toggle_button").click(function(){
+			$( ".toggled_container" ).toggle( "blind");		
+		});
+		
+		$( "#datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});	
+		
+		$("#sidebar").children(".list-group").children(".list-group-item").click(function(){
+		$("#sidebar").children(".list-group").children(".list-group-item.active").removeClass("active");
+		$(this).addClass("active");
+			});
+		
+		$(".jugador_li").click(function(){
+		var jid = $(this).attr("data-jid");
+		$(".jugador_li.active").removeClass("active");
+		$(".jugador_li[data-jid="+jid+"]").addClass("active");
+		$(".jugador_contenido.active").removeClass("active");
+		$(".jugador_contenido[data-jid="+jid+"]").addClass("active");
+			});
+		
+		
 	});
 	</script>
   </body>
