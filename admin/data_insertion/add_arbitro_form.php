@@ -160,6 +160,15 @@
 	$("#sidebar").children(".list-group").children(".list-group-item.active").removeClass("active");
 	$(this).addClass("active");
 		});
+	
+	$(".arbitro_li").click(function(){
+	var aid = $(this).attr("data-aid");
+	$(".arbitro_li.active").removeClass("active");
+	$(".arbitro_li[data-aid="+aid+"]").addClass("active");
+	$(".arbitro_contenido.active").removeClass("active");
+	$(".arbitro_contenido[data-aid="+aid+"]").addClass("active");
+		});
+	
 	</script>
   </body>
 </html>
