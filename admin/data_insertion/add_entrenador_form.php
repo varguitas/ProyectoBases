@@ -52,8 +52,8 @@
 				?>
           <!-- /Jumbotron -->
           <div class="jumbotron">
-            <button type="button" class="btn btn-primary btn-lg toggle_button" id="toggle_agregar_arbitro">Agregar Entrenador</button>
-            <div id="agregar_arbitro" class="toggled_container">
+            <button type="button" class="btn btn-primary btn-lg toggle_button toggle_button">Agregar Entrenador</button>
+            <div class="toggled_container">
                 <form class="form-horizontal" role="form" action="add_entrenador.php" method="POST">
                   <div class="form-group">
                     <label class="col-sm-2 control-label">Nombre</label>
@@ -93,22 +93,37 @@
                     </div>
                   </div>          
                  </form> 
-             </div>    <!--cierra agregar_arbitro-->    
+             </div>    <!--cierra agregar_entrenador-->    
           </div> <!-- /Jumbotron -->
           
           <div class="row" style="padding:2em">
             
-            <h1 style="display:inline-block">Nombre del Entrenador</h1>
-            <button type="button" class="btn btn-danger">Eliminar</button>
-            <button type="button" class="btn btn-success">Editar</button>
-            
-            <h3>Edad</h3>
-            <p>00 años</p>
-            <h3>Fecha de nacimiento</h3>
-            <p>yyyy/mm/dd</p>
-            <h3>País</h3>
-            <p>Default_1</p>
-            
+           	<?php
+				$sql = "EXEC get_entrenadores";
+				$stmt = sqlsrv_query( $conn, $sql);
+				if (sqlsrv_has_rows($stmt)) {
+					$entrenador = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC);
+					$entrenador_li = "<li data-entid=".$entrenador["ID_ENTRENADOR"]." class='list-group-item active entrenador_li'>".$entrenador["NOMBRE"]."</li>";
+					$contenido = "<div class='entrenador_contenido active' data-entid=".$entrenador["ID_ENTRENADOR"]."><h1 style='display:inline-block'>".$entrenador["NOMBRE"]."</h1><button type='button' class='btn btn-danger pull-right'>Eliminar</button>
+				<h3>Fecha de Nacimiento</h3>
+				<p>".$entrenador["FECHA_NACIMIENTO"]."</p>
+				<h3>Pais</h3>
+				<p>".$entrenador["PAIS"]."</p></div>";
+					while ($entrenador = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
+						$entrenador_li = $entrenador_li."<li data-entid=".$entrenador["ID_ENTRENADOR"]." class='list-group-item entrenador_li'>".$entrenador["NOMBRE"]."</li>";
+						$contenido = $contenido."<div class='entrenador_contenido' data-entid=".$entrenador["ID_ENTRENADOR"]."><h1 style='display:inline-block'>".$entrenador["NOMBRE"]."</h1><button type='button' class='btn btn-danger pull-right'>Eliminar</button>
+				<h3>Fecha de Nacimiento</h3>
+				<p>".$entrenador["FECHA_NACIMIENTO"]."</p>
+				<h3>Tipo</h3>
+				<p>".$entrenador["TIPO_ENTRENADOR"]."</p>
+				<h3>Pais</h3>
+				<p>".$entrenador["PAIS"]."</p></div>";
+					}
+				} else {
+					$entrenador_li ="<li class='list-group-item'>No hay entrenadores inscritos</li>";
+				}
+				echo $contenido;
+			?>
 			
             
           
@@ -117,16 +132,9 @@
 
         <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
           <div class="list-group">
-            <a href="#" class="list-group-item active">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
+			<?php
+		 		echo $entrenador_li;
+         	?>
           </div>
         </div><!--/span-->
       </div><!--/row-->
@@ -141,13 +149,36 @@
 
 
 
-    <?php 
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<?php 
 	include ("../html/script.php");
 	?>
     <script>
 	$(document).ready(function(){
 		$(".add_ok").delay(4000).fadeOut();
 		$(".add_error").delay(6000).fadeOut();
+		
+		$( "#datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});
+		
+		$(".toggle_button").click(function(){
+			$( ".toggled_container" ).toggle( "blind");		
+		});
+		
+		$("#sidebar").children(".list-group").children(".list-group-item").click(function(){
+			$("#sidebar").children(".list-group").children(".list-group-item.active").removeClass("active");
+			$(this).addClass("active");
+		});
+	
+		$(".entrenador_li").click(function(){
+			var entid = $(this).attr("data-entid");
+			$(".entrenador_li.active").removeClass("active");
+			$(".entrenador_li[data-entid="+entid+"]").addClass("active");
+			$(".entrenador_contenido.active").removeClass("active");
+			$(".entrenador_contenido[data-entid="+entid+"]").addClass("active");
+		});
+		
 	});
 	</script>
   </body>
