@@ -27,19 +27,7 @@
     <link href="../css/style.css" rel="stylesheet">
     
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-    
-
-
-    
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-    
-
-    
-    
+        
   </head>
 
   <body>
@@ -536,5 +524,43 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/offcanvas.js"></script>
     <script src="../js/index.js"></script>
+    <script>
+
+  $(document).ready(function() {
+
+    $('#boton_tarjeta').click(function(){		
+		$('#modal_incidencia').modal('hide');
+		$('#modal_tarjeta').modal('show');
+		});		
+	
+	
+	$('#boton_cambio').click(function(){	
+		$('#modal_incidencia').modal('hide');
+		$('#modal_cambio').modal('show');
+		});	
+		
+	
+	$('#boton_gol').click(function(){	
+		$('#modal_incidencia').modal('hide');
+		$('#modal_gol').modal('show');
+		});	
+		
+	$('#modal_tarjeta').on('hidden',function(){
+		$(this).data('modal', null);
+		});
+	
+	$('#modal_cambio').on('hidden',function(){
+		$(this).data('modal', null);
+		});
+
+	$('#modal_gol').on('hidden',function(){
+		$(this).data('modal', null);
+		});
+	
+	$('#modal_incidencia').on('hidden',function(){
+		 $(this).data('modal', null);
+		});
+  });
+    </script>
   </body>
 </html>

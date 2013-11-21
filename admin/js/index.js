@@ -74,38 +74,6 @@
 			alert('seleccione un partido');
 			}else{$('#modal_incidencia').modal('show')}	
 		});
-	$('#boton_tarjeta').click(function(){		
-		$('#modal_incidencia').modal('hide');
-		$('#modal_tarjeta').modal('show');
-		});		
-	
-	
-	$('#boton_cambio').click(function(){	
-		$('#modal_incidencia').modal('hide');
-		$('#modal_cambio').modal('show');
-		});	
-		
-	
-	$('#boton_gol').click(function(){	
-		$('#modal_incidencia').modal('hide');
-		$('#modal_gol').modal('show');
-		});	
-		
-	$('#modal_tarjeta').on('hidden',function(){
-		$(this).data('modal', null);
-		});
-	
-	$('#modal_cambio').on('hidden',function(){
-		$(this).data('modal', null);
-		});
-
-	$('#modal_gol').on('hidden',function(){
-		$(this).data('modal', null);
-		});
-	
-	$('#modal_incidencia').on('hidden',function(){
-		 $(this).data('modal', null);
-		});
 });
  
   
