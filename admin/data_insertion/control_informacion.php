@@ -93,7 +93,7 @@
 						$params = array($tid);
 						$stmt = sqlsrv_query( $conn, $sql, $params);
 						while ($partido = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
-							echo "<tr data-pid='".$partido["ID_PARTIDO"]."'><td class='equipo'>".$partido["EQUIPO_CASA"]."</td><td class='equipo'>".$partido["EQUIPO_VISITA"]."</td><td>".$partido["FECHA"]."</td></tr>";
+							echo "<tr data-pid='".$partido["ID_PARTIDO"]."'><td data-eid='".$partido["ID_EQUIPO_CASA"]."' class='equipo'>".$partido["EQUIPO_CASA"]."</td><td data-eid='".$partido["ID_EQUIPO_VISITA"]."' class='equipo'>".$partido["EQUIPO_VISITA"]."</td><td>".$partido["FECHA"]."</td></tr>";
 						}
 					 ?>
 				</table>
@@ -544,7 +544,17 @@
 	$('#modal_incidencia').on('hidden',function(){
 		 $(this).data('modal', null);
 		});
-  });
+	});
+  	$("#partidos_registrados tr td.equipo").click(function(){
+		var partido_seleccionado = $(this).parent().attr("data-pid");
+		var equipo_seleccionado = $(this).attr("data-eid");
+		$('#formacion').removeAttr('disabled');
+		$('#incidencia').removeAttr('disabled');
+		$("#formacion").attr('data-pid',partido_seleccionado);
+		$("#incidencia").attr('data-pid',partido_seleccionado);
+		$("#formacion").attr('data-eid',equipo_seleccionado);
+		$("#incidencia").attr('data-eid',equipo_seleccionado);
+	});
     </script>
   </body>
 </html>

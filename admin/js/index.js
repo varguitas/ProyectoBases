@@ -13,13 +13,7 @@
 		$( ".toggled_container" ).toggle( "blind");		
 	});
 	
-	$("#partidos_registrados tr td.equipo").click(function(){
-		var partido_seleccionado = $(this).parent().attr("data-pid");
-		$('#formacion').removeAttr('disabled');
-		$('#incidencia').removeAttr('disabled');
-		$("#formacion").attr('data-pid',partido_seleccionado);
-		$("#incidencia").attr('data-pid',partido_seleccionado);
-		});
+
 	
 	$("#formacion").click(function(){
 		if($(this).attr('data-pid')==""){
