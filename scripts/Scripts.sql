@@ -1096,6 +1096,25 @@ END
 GRANT EXEC ON add_incidencia_cambio TO adm_user;
 GO
 
+-- ACTUALIZAR_FECHA
+if object_id('actualizar_fecha') is not null
+begin
+	DROP PROCEDURE actualizar_fecha
+end
+GO
+CREATE PROCEDURE actualizar_fecha (@ID_TORNEO int, @ID_JORNADA int, @FECHA_NUEVA datetime) AS
+	BEGIN
+		UPDATE JORNADA
+		SET FECHA = @FECHA_NUEVA
+		WHERE (ID_TORNEO = @ID_TORNEO AND ID_JORNADA=@ID_JORNADA)
+		UPDATE PARTIDO
+		SET FECHA_REPROGRAMACION = @FECHA_NUEVA
+		WHERE (ID_TORNEO = @ID_TORNEO AND ID_JORNADA=@ID_JORNADA)
+	END
+GO
+GRANT EXEC ON actualizar_fecha TO adm_user;
+GO
+
 /* SE ELIMINAN TODO TIPO DE PERMISOS A app_user */
 REVOKE ALL ON ALINEACION TO app_user;
 GO
