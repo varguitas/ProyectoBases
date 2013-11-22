@@ -31,24 +31,9 @@
   </head>
 
   <body>
-    <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Proyecto</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Configurar Datos</a></li>
-          </ul>
-        </div><!-- /.nav-collapse -->
-      </div><!-- /.container -->
-    </div><!-- /.navbar -->
+<?php
+	include("../html/header.php");
+?>
 
     <div class="container">
 
@@ -77,7 +62,8 @@
               
               	<table class="table table-hover" style="cursor:pointer">
   					<tr>
-                        <th>Partido</th>
+                        <th>Equipo Casa</th>
+                        <th>Equipo Visita</th>
                         <th>Fecha</th>
                     </tr>
   					 <?php
@@ -86,7 +72,7 @@
 						$params = array($tid);
 						$stmt = sqlsrv_query( $conn, $sql, $params);
 						while ($partido = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
-							echo "<tr data-pid='".$partido["ID_PARTIDO"]."'><td>".$partido["EQUIPO_CASA"]." vs ".$partido["EQUIPO_VISITA"]."</td><td>".$partido["FECHA"]."</td></tr>";
+							echo "<tr data-pid='".$partido["ID_PARTIDO"]."'><td>".$partido["EQUIPO_CASA"]."</td><td>".$partido["EQUIPO_VISITA"]."</td><td>".$partido["FECHA"]."</td></tr>";
 						}
 					 ?>
 				</table>
@@ -97,7 +83,8 @@
               
               	 <table id="partidos_registrados" class="table table-hover" style="cursor:pointer">
   					<tr>
-                        <th>Partido</th>
+                        <th>Equipo Casa</th>
+                        <th>Equipo Visita</th>
                         <th>Fecha</th>
                     </tr>
   					 <?php
@@ -106,7 +93,7 @@
 						$params = array($tid);
 						$stmt = sqlsrv_query( $conn, $sql, $params);
 						while ($partido = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
-							echo "<tr data-pid='".$partido["ID_PARTIDO"]."'><td>".$partido["EQUIPO_CASA"]." vs ".$partido["EQUIPO_VISITA"]."</td><td>".$partido["FECHA"]."</td></tr>";
+							echo "<tr data-pid='".$partido["ID_PARTIDO"]."'><td class='equipo'>".$partido["EQUIPO_CASA"]."</td><td class='equipo'>".$partido["EQUIPO_VISITA"]."</td><td>".$partido["FECHA"]."</td></tr>";
 						}
 					 ?>
 				</table>
@@ -114,11 +101,8 @@
               </div>
              
             </div>
-			
-            <button type="button" data-ipd="" class="btn btn-success" disabled="disabled" id="formacion_casa" style="float:right;margin-top:0.5em">Formación Casa</button>
-            <button type="button" data-ipd="" class="btn btn-primary" disabled="disabled" id="incidencia_casa"   style="float:right;margin-top:0.5em;margin-right:0.5em">Incidencia Casa</button>
-            <button type="button" data-ipd="" class="btn btn-success" disabled="disabled" id="formacion_visita" style="float:right;margin-top:0.5em">Formación Visita</button>
-            <button type="button" data-ipd="" class="btn btn-primary" disabled="disabled" id="incidencia_visita"   style="float:right;margin-top:0.5em;margin-right:0.5em">Incidencia Visita</button>
+            <button type="button" data-ipd="" class="btn btn-success" disabled="disabled" id="formacion" style="float:right;margin-top:0.5em">Formación</button>
+            <button type="button" data-ipd="" class="btn btn-primary" disabled="disabled" id="incidencia"   style="float:right;margin-top:0.5em;margin-right:0.5em">Incidencia</button>
             
           </div> <!-- /Jumbotron -->
           

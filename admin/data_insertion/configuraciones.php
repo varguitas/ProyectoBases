@@ -73,7 +73,32 @@
             	<a href="add_inscripcion_equipo_form.php?tid=<?php echo $tid; ?>"><div class="configuraciones_option btn-default">Inscribir equipos</div></a>
             </div>
             <div class="col-12 col-sm-12 col-lg-12">
-            	<a href="iniciar_torneo.php?tid=<?php echo $tid; ?>"><div class="configuraciones_option btn-success">Iniciar Torneo</div></a>
+            	<div class="configuraciones_option btn-success">Iniciar Torneo</div>
+                <div class="seleccionar_dias">
+                    <form action="iniciar_torneo.php" method="get">
+                        <h2>Seleccione dos días para ejecutar los partidos:</h2>
+                        <select name="dia_uno">
+                            <option value="Monday">Lunes</option>
+                            <option value="Thuesday">Martes</option>
+                            <option value="Wednesday">Miércoles</option>
+                            <option value="Thursday">Jueves</option>
+                            <option value="Friday">Viernes</option>
+                            <option value="Saturday">Sábado</option>
+                            <option value="Sunday">Domingo</option>
+                        </select>
+                        <select name="dia_dos">
+                            <option value="Monday">Lunes</option>
+                            <option value="Thuesday">Martes</option>
+                            <option value="Wednesday">Miércoles</option>
+                            <option value="Thursday">Jueves</option>
+                            <option value="Friday">Viernes</option>
+                            <option value="Saturday">Sábado</option>
+                            <option value="Sunday">Domingo</option>
+                        </select>
+                        <input type="hidden" name="tid" value="<?php echo $tid; ?>">
+                        <input type="submit" class="btn btn-primary" value="Iniciar">
+                    </form>
+                </div>
             </div>
             <hr>
             <?php

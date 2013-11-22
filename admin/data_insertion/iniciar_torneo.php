@@ -3,6 +3,12 @@
 	if (!isset($_GET["tid"])) {
 		die("Debe suminstrar el ID del torneo");
 	}
+	if (!isset($_GET["dia_uno"])) {
+		die("Debe suminstrar el dia uno");
+	}
+	if (!isset($_GET["dia_dos"])) {
+		die("Debe suminstrar el dia dos");
+	}
 	// OBTENER INFOMACION DE LOS EQUIPOS INSCRITOS
 	$tid = $_GET["tid"];
 	include("../system/conectInfo.php");
@@ -37,8 +43,8 @@
 	// VERIFIQUE SI TODOS LOS EQUIPOS SON VALIDOS Y CUENTAN CON LA CANTIDAD SUFICIENTE DE JUGADORES
 	$torneo = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC);
 	$fecha_ini = $torneo["FECHA_INICIO"];
-	$dia1 = "Sunday";
-	$dia2 = "Wednesday";
+	$dia1 = $_GET["dia_uno"];
+	$dia2 = $_GET["dia_dos"];
 	sqlsrv_close ( $conn );
 	try{
 		iniciar_torneo($tid,$lista_equipos,$fecha_ini,$dia1,$dia2);
@@ -198,7 +204,7 @@
 				$id_ubicacion = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC);
 				$id_ubicacion = $id_ubicacion["ID_UBICACION"];
 				$sql = "EXEC add_partido @ID_TORNEO= ? , @ID_JORNADA = ? , @ID_EQUIPO_CASA = ? , @ID_EQUIPO_VISITA = ?, @FECHA_PARTIDO = ? , @ID_UBICACION = ?";
-				$params = array($id_torneo,$i,$equipo_casa,$equipo_visita,$fecha_partido, $id_ubicacion);
+				$params = array($id_torneo,$i,$equipo_casa,$equipo_visita,$fecha_partido." 15:00:00", $id_ubicacion);
 				$stmt = sqlsrv_query( $conexion, $sql, $params);
 				if( $stmt === false ) {
 					sqlsrv_rollback ( $conexion );

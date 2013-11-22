@@ -156,5 +156,10 @@
 	<?php 
 	include ("../html/script.php");
 	?>
+    <script>
+		$(".toggle_button").click(function(){
+			$(".toggled_container").toggle("slow");
+		});
+	</script>
   </body>
 </html>

@@ -13,10 +13,10 @@
 		$( ".toggled_container" ).toggle( "blind");		
 	});
 	
-	$("#partidos_registrados tr").click(function(){
-		var partido_seleccionado = $(this).attr("data-pid");
-		$('#formacion').attr('disabled',null);
-		$('#incidencia').attr('disabled',null);
+	$("#partidos_registrados tr td.equipo").click(function(){
+		var partido_seleccionado = $(this).parent().attr("data-pid");
+		$('#formacion').removeAttr('disabled');
+		$('#incidencia').removeAttr('disabled');
 		$("#formacion").attr('data-pid',partido_seleccionado);
 		$("#incidencia").attr('data-pid',partido_seleccionado);
 		});
@@ -37,7 +37,7 @@
 		});	
 		
 	$("#tab_partidos_registrados").on('shown.bs.tab',function(){
-		
+
 		$('#formacion').attr('disabled',"disabled");
 		$('#incidencia').attr('disabled',"disabled");
 		});		

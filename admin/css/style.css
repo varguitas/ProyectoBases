@@ -397,3 +397,6 @@ ul.dropdown-menu li:hover {
 .jugador_contenido.active {
 	display: block;
 }
+table#partidos_registrados tbody tr td.equipo:hover {
+	background: #06C!important;
+}

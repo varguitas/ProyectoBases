@@ -267,6 +267,7 @@
 	include ("../html/script.php");
 	?>
     <script>
+		$( "#datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});
 		$(".toggle_button").click(function(e) {
             $(".toggled_container").toggle("blind");
         });
@@ -402,8 +403,7 @@ actualizar_seleccionables();
 	$("#guardar_inscripcion").click(function(){
 		var xml = "<ids>";
 		var jugadores = $("#tabla_inscripcion_jugadores_inscritos tbody tr");
-		alert($(jugadores).size());
-		if ($(jugadores).size()>3 && $(jugadores).size()<23) {
+		if ($(jugadores).size()>14 && $(jugadores).size()<23) {
 			$("#tabla_inscripcion_jugadores_inscritos tbody tr").each(function(){
 				var id_jug = $(this).attr("data-jid");
 				var id_pos = $(this).children("td:last-child").children("select").val();
@@ -423,10 +423,10 @@ actualizar_seleccionables();
 				success: function(e) {
 					if (e == "t") {
 						$("#capa_protectora").fadeOut();
-						alert("todo bien");
-//						document.location.reload
+						location.reload(true);
 					} else {
-						alert("todo mal");
+						alert("Ha sucedido un error al registrar al equipo. Por favor intentelo de nuevo.");
+						location.reload(true);
 					}
 				}
 			}).done(function(){
