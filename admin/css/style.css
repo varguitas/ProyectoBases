@@ -149,7 +149,7 @@ ul.dropdown-menu li:hover {
 	width:45%;
 }                
 
-#div_alineacion_jugadores_inscritos {
+.div_alineacion_jugadores_inscritos {
 	float:left;
 	width:45%;
 }                
@@ -185,7 +185,7 @@ ul.dropdown-menu li:hover {
 	margin-left:2.5em;
 }
 
-#add_alineacion{
+.add_alineacion{
 	display:block;
 	border-radius:10px;
 	margin-top:15em;
@@ -193,17 +193,17 @@ ul.dropdown-menu li:hover {
 	margin-bottom:0.5em;
 }
 	
-#remove_alineacion{ 
+.remove_alineacion{ 
 	display:block;
 	border-radius:10px;
 	margin-left:2.5em;
 }
 
-#div_jugadores_disponibles div table tbody tr td select{
+.div_jugadores_disponibles div table tbody tr td select{
 	cursor:pointer;
 	}
 
-#div_alineacion_jugadores_inscritos div table tbody tr td select{
+.div_alineacion_jugadores_inscritos div table tbody tr td select{
 	cursor:pointer;
 	}
 
@@ -211,15 +211,15 @@ ul.dropdown-menu li:hover {
 	background-color:#428BCA;
 }
 
-#tabla_inscripcion_jugadores_inscritos tbody tr.selected{
+.tabla_inscripcion_jugadores_inscritos tbody tr.selected{
 	background-color:#428BCA;
 }
 
-#tabla_alineacion_jugadores_inscritos tbody tr.selected{
+.tabla_alineacion_jugadores_inscritos tbody tr.selected{
 	background-color:#428BCA;
 }
 
-#tabla_alineacion tbody tr.selected{
+.tabla_alineacion tbody tr.selected{
 	background-color:#428BCA;
 }
 

@@ -30,21 +30,7 @@
 	$( "#sortable1, #sortable2" ).sortable({
           connectWith: ".connectedSortable"
     }).disableSelection();
-	$('#add_alineacion').click(function(){
-	   $('#tabla_alineacion_jugadores_inscritos tbody tr.selected').appendTo('#tabla_alineacion tbody');
-	   $('#tabla_alineacion tbody tr.selected').removeClass('selected');
-	   $('#tabla_alineacion tbody tr td input').attr('disabled',"disabled");
-	   $('#add_alineacion').attr('disabled',"disabled");
-	   actualizar_seleccionables();
-		});
-		
-	$('#remove_alineacion').click(function(){
-	   $('#tabla_alineacion tbody tr.selected').appendTo('#tabla_alineacion_jugadores_inscritos tbody');
-	   $('#tabla_alineacion_jugadores_inscritos tbody tr.selected').removeClass('selected');
-	   $('#tabla_alineacion_jugadores_inscritos tbody tr td input').removeAttr('disabled');
-	   $('#remove_alineacion').attr('disabled',"disabled");
-	   actualizar_seleccionables();
-		});		
+	
 		
 /***************************/
 

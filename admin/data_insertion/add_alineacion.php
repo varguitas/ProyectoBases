@@ -1,8 +1,4 @@
-<title>add_alineacion</title>
 <?php
-	/* SE CREA CONEXION A LA BASE DE DATOS DE SQL SERVER */
-	$connectionInfo = array( "Database"=>"Proyecto", "UID"=>"app_user", "PWD"=>"Bases123");
-	$conn = sqlsrv_connect( 'VARGAS-PC', $connectionInfo);
 	/* 
 	FUNCION: add_alineacion 
 	DESCRIPCION: Agregar una alineación de un partido a la tabla Alineacion.
@@ -13,19 +9,30 @@
    		- numero_camisa int              
   
 	*/
-	function add_alineacion($id_partido, $id_incripcion_jugador, $titular, $numero_camisa ) {
-		/*VALIDACIONES*/
-		// verificar_numero ($id_partido);
-		// verificar_numero ($id_incripcion_jugador);
-		// verificar_numero ($numero_camisa);
+	function add_alineacion($id_partido, $ids ) {
 		/* ---------- VALIDACIONES ----------- */
-		$sql = "EXEC add_alineacion @ID_PARTIDO = '?' , @ID_INSCRIPCION_JUGADOR = '?' , @TITULAR = '?' , @NUMERO_CAMISETA = '?'";
-		$params = array($id_partido, $id_incripcion_jugador, $titular, $numero_camisa);
+		include("../system/conectInfo.php");
+		$sql = "EXEC add_alineacion @ID_PARTIDO = ? , @IDS = ?";
+		$params = array($id_partido, $ids);
 		$stmt = sqlsrv_query( $conn, $sql, $params);
 		if( $stmt === false ) {
-			return "error";
+			die( print_r( sqlsrv_errors(), true));
 		} else {
-			return "success";
+			echo "t";
 		}
+	}
+	include("../system/verifica_admin.php");
+	if (isset($_POST["id_partido"]) && isset($_POST["ids"])) {
+		$id_partido = $_POST["id_partido"];
+		$id_partido = trim(str_replace("  "," ",$id_partido));
+		$ids = $_POST["ids"];
+		$ids = trim(str_replace("  "," ",$ids));
+		if ($id_partido != "" && $ids != "") {
+			add_alineacion($id_partido,$ids);
+		} else {
+			echo "f";
+		}
+	} else {
+		include("../html/error.php");
 	}
 ?>

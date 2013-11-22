@@ -90,10 +90,35 @@
   					 <?php
 						include("../system/conectInfo.php");
 						$sql = "EXEC get_programacion_torneo_futuro @ID_TORNEO = ?";
+						$equipos = array();
 						$params = array($tid);
 						$stmt = sqlsrv_query( $conn, $sql, $params);
 						while ($partido = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
-							echo "<tr data-pid='".$partido["ID_PARTIDO"]."'><td data-eid='".$partido["ID_EQUIPO_CASA"]."' class='equipo'>".$partido["EQUIPO_CASA"]."</td><td data-eid='".$partido["ID_EQUIPO_VISITA"]."' class='equipo'>".$partido["EQUIPO_VISITA"]."</td><td>".$partido["FECHA"]."</td></tr>";
+							if (!in_array($partido["ID_EQUIPO_CASA"],$equipos)) {
+								array_push($equipos,$partido["ID_EQUIPO_CASA"]);
+							}
+							if (!in_array($partido["ID_EQUIPO_VISITA"],$equipos)) {
+								array_push($equipos,$partido["ID_EQUIPO_VISITA"]);
+							}
+							$sql = "EXEC contar_jugadores_formacion ? , ?";
+							$params = array($partido["ID_PARTIDO"],$partido["ID_EQUIPO_CASA"]);
+							$stmt2 = sqlsrv_query( $conn, $sql, $params);
+							if ($stmt2 === false) {
+								die(print_r(sqlsrv_errors(),true));
+							}
+							$formacion_casa = sqlsrv_fetch_array( $stmt2, SQLSRV_FETCH_ASSOC);
+							$formacion_casa = $formacion_casa["RESULTADO"];
+							
+							$sql = "EXEC contar_jugadores_formacion ? , ?";
+							$params = array($partido["ID_PARTIDO"],$partido["ID_EQUIPO_VISITA"]);
+							$stmt3 = sqlsrv_query( $conn, $sql, $params);
+							if ($stmt3 === false) {
+								die(print_r(sqlsrv_errors(),true));
+							}
+							$formacion_visita = sqlsrv_fetch_array( $stmt3, SQLSRV_FETCH_ASSOC);
+							$formacion_visita = $formacion_visita["RESULTADO"];
+							
+							echo "<tr data-pid='".$partido["ID_PARTIDO"]."'><td data-ft='".$formacion_casa."' data-eid='".$partido["ID_EQUIPO_CASA"]."' class='equipo'>".$partido["EQUIPO_CASA"]."</td><td data-ft='".$formacion_visita."' data-eid='".$partido["ID_EQUIPO_VISITA"]."' class='equipo'>".$partido["EQUIPO_VISITA"]."</td><td>".$partido["FECHA"]."</td></tr>";
 						}
 					 ?>
 				</table>
@@ -129,9 +154,19 @@
 
       <hr>
       
-      
+      <?php
+      	foreach ($equipos as $equipo) {
+			include("../system/conectInfo.php");
+			$sql = "EXEC get_jugadores_inscritos ?";
+			$params = array($equipo);
+			$stmt = sqlsrv_query( $conn, $sql, $params);
+			if ($stmt === false) {
+				die(print_r(sqlsrv_errors()));
+			}
+			
+	  ?>
         <!-- Modal Alineacion -->
-            <div class="modal fade modal_alineacion" data-eid="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+            <div class="modal fade modal_alineacion" data-eid="<?php echo $equipo;?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
               <div class="modal-dialog" style="width:75em;margin:auto">
                 <div class="modal-content" style="overflow:auto;height:35em">
                   <div class="modal-header">
@@ -141,10 +176,10 @@
                   <div class="modal-body">
 
 						
-				 	<div id="div_alineacion_jugadores_inscritos">                  
+				 	<div class="div_alineacion_jugadores_inscritos">                  
                       <h3 style="padding-left:1em">Jugadores Inscritos</h3>
                       <div>
-                      	<table id="tabla_alineacion_jugadores_inscritos" class="table table-hover" style="cursor:pointer">
+                      	<table class="tabla_alineacion_jugadores_inscritos" data-eid="<?php echo $equipo; ?>" class="table table-hover" style="cursor:pointer">
                             <thead>
                             <tr>
                                 <th style="padding-left:1em">Jugadores Inscritos</th>
@@ -154,76 +189,22 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <?php
+                            while ($jugador = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)) {
+							?>
                             <tr class="selecionable">
-                                <td>Lionel Messi</td>
-                               	<td>Default</td>
-                                <td>
-                                	<input type="number" class="form-control" placeholder="Numero camiseta">
+                                <td data-jid="<?php echo $jugador["ID_INSCRIPCION_JUGADOR"]; ?>"><?php echo $jugador["NOMBRE"]; ?></td>
+                               	<td><?php echo $jugador["POSICION"]; ?></td>
+                                <td class="camisa">
+                                	<input type="number" class="form-control" placeholder="Numero camiseta" name="camiseta">
                                 </td>
                                 <td>
-                                	<input type="checkbox" value="">
-                                </td>
-                            </tr>
-                             <tr class="selecionable">
-                                <td>Eddie Gómez</td>
-                                <td>Default</td>
-                                <td>
-                                	<input type="number" class="form-control" placeholder="Numero camiseta">
-                                </td>
-                                <td>
-                                	<input type="checkbox" value="">
+                                	<input type="checkbox" name="titular">
                                 </td>
                             </tr>
-                             <tr class="selecionable">
-                                <td>Juan José Gómez</td>
-                                <td>Default</td>
-                                <td>
-                                	<input type="number" class="form-control" placeholder="Numero camiseta">
-                                </td>
-                                <td>
-                                	<input type="checkbox" value="">
-                                </td>
-                            </tr>
-                             <tr class="selecionable">
-                                <td>Juanita Ramírez</td>
-                                <td>Default</td>
-                                <td>
-                                	<input type="number" class="form-control" placeholder="Numero camiseta">
-                                </td>
-                                <td>
-                                	<input type="checkbox" value="">
-                                </td>
-                            </tr>
-                              <tr class="selecionable">
-                                <td>Pepe Aguilar</td>
-                                <td>Default</td>
-                                <td>
-                                	<input type="number" class="form-control" placeholder="Numero camiseta">
-                                </td>
-                                <td>
-                                	<input type="checkbox" value="">
-                                </td>
-                            </tr>
-                             <tr class="selecionable">
-                                <td>El Tiburoncín</td>
-                                <td>Default</td>
-                                <td>
-                                	<input type="number" class="form-control" placeholder="Numero camiseta">
-                                </td>
-                                <td>
-                                	<input type="checkbox" value="">
-                                </td>
-                            </tr>
-                             <tr class="selecionable">
-                                <td>EL Juanchis</td >
-                                <td>Default</td>
-                                <td>
-                                	<input type="number" class="form-control" placeholder="Numero camiseta">
-                                </td>
-                                <td>
-                                	<input type="checkbox" value="">
-                                </td>
-                            </tr>
+                            <?php
+							}
+							?>
                             </tbody>
                             
                         </table>
@@ -231,15 +212,15 @@
                   	</div>
                   
                   	<div class="div_buttons_config">
-                  	<button id="add_alineacion" data-ijd="" class="btn btn-default" disabled="disabled" type="button">>></button>
-                    <button id="remove_alineacion" data-ijd="" class="btn btn-default" disabled="disabled" type="button" ><<</button>
+                  	<button class="add_alineacion" data-ijd="" class="btn btn-default" disabled="disabled" type="button">>></button>
+                    <button class="remove_alineacion" data-ijd="" class="btn btn-default" disabled="disabled" type="button" ><<</button>
                   	</div>
                     <div id="div_alineacion">
                       <h3 style="padding-left:1em">Alineación</h3>
                       <div>
                       
                       
-                          <table id="tabla_alineacion" class="table table-hover" style="cursor:pointer">
+                          <table class="tabla_alineacion" data-eid="<?php echo $equipo;?>" class="table table-hover" style="cursor:pointer">
                             <thead>
                             <tr>
                                 <th style="padding-left:1em">Jugadores Inscritos</th>
@@ -262,13 +243,15 @@
                   
                   <div class="modal-footer" style="clear:both">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="submit" class="btn btn-primary guardar_alineacion">Guardar</button>
                   </div><!-- modal footer-->
                 </div><!-- /.modal-content -->
               </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->  
       <!-- /.Modal Alineacion -->
-		
+		<?php
+		}
+		?>
       
        <!-- Modal Incidencia -->
             <div class="modal fade" id="modal_incidencia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
@@ -313,7 +296,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            <h4 class="modal-title">Registrar Tarjeta</h4>
           </div>
           <div class="modal-body">
             
@@ -347,7 +330,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button id="incidencia_tarjeta" type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -365,7 +348,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            <h4 class="modal-title">Registrar Cambio</h4>
           </div>
           <div class="modal-body">
             
@@ -403,7 +386,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button id="incidencia_cambio" type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -420,7 +403,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            <h4 class="modal-title">Registrar Gol</h4>
           </div>
           <div class="modal-body">
             
@@ -482,7 +465,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button id="incidencia_gol" type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -547,12 +530,16 @@ $(document).ready(function() {
   	$("#partidos_registrados tr td.equipo").click(function(){
 		var partido_seleccionado = $(this).parent().attr("data-pid");
 		var equipo_seleccionado = $(this).attr("data-eid");
+		var ft = $(this).attr("data-ft");
 		$('#formacion').removeAttr('disabled');
 		$('#incidencia').removeAttr('disabled');
 		$("#formacion").attr('data-pid',partido_seleccionado);
 		$("#incidencia").attr('data-pid',partido_seleccionado);
 		$("#formacion").attr('data-eid',equipo_seleccionado);
 		$("#incidencia").attr('data-eid',equipo_seleccionado);
+		$("#incidencia").attr('data-ft',ft);
+		var equipo_opuesto_id = $(this).parent().children(".equipo").not($(this)).attr("data-eid");
+		$("#incidencia").attr('data-eoid',equipo_opuesto_id);
 	});
 	
 	$("#formacion").click(function(){
@@ -560,6 +547,11 @@ $(document).ready(function() {
 			alert('seleccione un partido');
 		}else{
 			var eid = $(this).attr('data-eid');
+			var pid = $(this).attr('data-pid');
+			$('.add_alineacion').attr("data-eid",eid);
+			$('.remove_alineacion').attr("data-eid",eid);
+			$('.guardar_alineacion').attr("data-eid",eid);
+			$('.guardar_alineacion').attr("data-pid",pid);
 			$('.modal_alineacion[data-eid='+eid+']').modal('show')
 		}	
 	});
@@ -568,7 +560,106 @@ $(document).ready(function() {
 		if($(this).attr('data-pid')=="" || $(this).attr('data-eid')==""){
 			alert('seleccione un partido');
 		}else{
-			$('#modal_incidencia').modal('show')
+			if ($(this).attr("data-ft")=="0") {
+				alert("Debe registrar una formación de al menos 15 jugadores para poder registrar una incidencia en este partido para este equipo.");
+			}
+			if ($(this).attr("data-ft")=="1") {
+				$('#modal_incidencia').modal('show');
+			}
+		}	
+	});
+	$('.add_alineacion').click(function(){
+		var eid = $(this).attr("data-eid");
+		if (!$.isNumeric($('.tabla_alineacion_jugadores_inscritos[data-eid='+eid+']').children('tbody').children('tr.selected').children("td.camisa").children("input").val())) {
+			alert("Número de camisa debe ser numérico Camisa debe");
+		} else {
+		   $('.tabla_alineacion_jugadores_inscritos[data-eid='+eid+']').children('tbody').children('tr.selected').appendTo('.tabla_alineacion[data-eid='+eid+']').children('tbody');
+		   $('.tabla_alineacion tbody tr.selected').removeClass('selected');
+		   $('.tabla_alineacion tbody tr td input').attr('disabled',"disabled");
+		   $('#add_alineacion').attr('disabled',"disabled");
+		   actualizar_seleccionables();
+		}
+	});
+		
+	$('.remove_alineacion').click(function(){
+		var eid = $(this).attr("data-eid");
+	   $('.tabla_alineacion[data-eid='+eid+']').children('tbody').children('tr.selected').appendTo('.tabla_alineacion_jugadores_inscritos[data-eid='+eid+']').children('tbody');
+	   $('.tabla_alineacion_jugadores_inscritos tbody tr.selected').removeClass('selected');
+	   $('.tabla_alineacion_jugadores_inscritos tbody tr td input').removeAttr('disabled');
+	   $('.remove_alineacion').attr('disabled',"disabled");
+	   actualizar_seleccionables();
+	});
+	function actualizar_seleccionables(){
+	  $( '.tabla_jugadores_disponibles tbody tr.selecionable').click(function(){  
+		  $('.tabla_jugadores_disponibles tbody tr.selected').removeClass('selected');
+		  $('.tabla_inscripcion_jugadores_inscritos tbody tr.selected').removeClass('selected');
+		  $(this).addClass('selected');
+		  $('.add_inscripcion').removeAttr('disabled');
+		  $('.remove_inscripcion').attr('disabled',"disabled");
+			});
+			
+	  $( '#tabla_inscripcion_jugadores_inscritos tbody tr.selecionable').click(function(){
+		  $('.tabla_jugadores_disponibles tbody tr.selected').removeClass('selected');  
+		  $('.tabla_inscripcion_jugadores_inscritos tbody tr.selected').removeClass('selected');
+		  $(this).addClass('selected');
+		  $('.remove_inscripcion').removeAttr('disabled');
+		   $('.add_inscripcion').attr('disabled',"disabled");
+		});
+			
+			
+	/***********/
+	
+		$( '.tabla_alineacion_jugadores_inscritos tbody tr.selecionable').click(function(){  
+		  $('.tabla_alineacion_jugadores_inscritos tbody tr.selected').removeClass('selected');
+		  $('.tabla_alineacion tbody tr.selected').removeClass('selected');
+		  $(this).addClass('selected');
+		  $('.add_alineacion').removeAttr('disabled');
+		  $('.remove_alineacion').attr('disabled',"disabled");
+			});
+			
+	  $( '.tabla_alineacion tbody tr.selecionable').click(function(){  
+		  $('.tabla_alineacion_jugadores_inscritos tbody tr.selected').removeClass('selected');
+		  $('.tabla_alineacion tbody tr.selected').removeClass('selected');
+		  $(this).addClass('selected');
+		  $('.remove_alineacion').removeAttr('disabled');
+		   $('.add_alineacion').attr('disabled',"disabled");
+		});	
+			
+	}
+	actualizar_seleccionables();
+	$('.guardar_alineacion').click(function(){
+		var eid = $(this).attr("data-eid");
+		var pid = $(this).attr("data-pid");
+		var alineaciones = $( '.tabla_alineacion[data-eid='+eid+']').children('tbody').children('tr');
+		if ($(alineaciones).size()>14 && $(alineaciones).size()<23) {
+			var xml = "<ids>";
+			$( alineaciones).each(function(){
+				var jid = $(this).children("td:first").attr("data-jid");
+				var camisa = $(this).children("td.camisa").children("input").val();
+				var titular = $(this).children("td:last").children("input").is(":checked");
+				if (titular) {
+					titular = 1;
+				} else {
+					titular = 0;
+				}
+				xml += "<id><jugador>"+jid+"</jugador><titular>"+titular+"</titular><numero_camiseta>"+camisa+"</numero_camiseta></id>";
+			});
+			xml += "</ids>";
+			$.ajax({
+				method: "POST",
+				url: "add_alineacion.php",
+				data: {id_partido: pid,ids: xml},
+				success: function(e) {
+					if (e=="t") {
+						alert("Formación agregada con éxito.");
+						location.reload(true);
+					} else {
+						alert("Error al agregar la formación. Por favor intentelo de nuevo.");
+					}
+				}
+			});
+		} else {
+			alert("Debe agregar al menos 15 jugadores y 22 como máximo");
 		}	
 	});
 });
