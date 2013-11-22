@@ -47,18 +47,7 @@
 		});		
 		
 /***************************/
-	
-	$("#formacion").click(function(){
-		if($(this).attr('data-pid')==""){
-			alert('seleccione un partido');
-			}else{$('#Modal_Alineacion').modal('show')}	
-		});
-	
-	$("#incidencia").click(function(){
-		if($(this).attr('data-pid')==""){
-			alert('seleccione un partido');
-			}else{$('#modal_incidencia').modal('show')}	
-		});
+
 });
  
   

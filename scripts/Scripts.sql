@@ -1196,13 +1196,13 @@ GO
 GRANT EXEC ON contar_jugadores_formacion TO adm_user;
 GO
 
-
-if object_id('jugadores_no_incritos') is not null
+--OBTIENE JUGADORES QUE NO ESTÁN INSCRITOS EN UN TORNEO EN ESPECÍFICO
+if object_id('get_jugadores_no_incritos') is not null
 begin
-	DROP FUNCTION jugadores_no_incritos
+	DROP FUNCTION get_jugadores_no_incritos
 end
 GO
-CREATE PROCEDURE jugadores_no_incritos
+CREATE PROCEDURE get_jugadores_no_incritos
 AS BEGIN
 	@ID_TORNEO INT,
 
@@ -1216,7 +1216,26 @@ AS BEGIN
 		WHERE IE.ID_TORNEO = @ID_TORNEO)
 END
 GO
-GRANT EXEC ON jugadores_no_inscritos TO adm_user;
+GRANT EXEC ON get_jugadores_no_inscritos TO adm_user;
+GO
+
+--OBTIENE JUGADORES QUE ESTÁN INSCRITOS EN UN EQUIPO INSCRITO
+if object_id('get_jugador_inscrito') is not null
+begin
+	DROP FUNCTION get_jugador_inscrito
+end
+GO
+CREATE PROCEDURE get_jugador_inscrito
+	@ID_INSCRIPCION_EQUIPO INT
+AS BEGIN
+	SELECT J.ID_JUGADOR, CONCAT(J.NOMBRE,' ',J.APELLIDOS)
+	FROM JUGADOR J 
+		INNER JOIN INSCRIPCION_JUGADOR IJ
+		ON J.ID_JUGADOR= IJ.ID_JUGADOR
+	WHERE IJ.ID_INSCRIPCION_EQUIPO=@ID_INSCRIPCION_EQUIPO
+END
+GO
+GRANT EXEC ON get_jugador_inscrito TO adm_user;
 GO
 
 /* SE ELIMINAN TODO TIPO DE PERMISOS A app_user */

@@ -131,7 +131,7 @@
       
       
         <!-- Modal Alineacion -->
-            <div class="modal fade" id="Modal_Alineacion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+            <div class="modal fade modal_alineacion" data-eid="" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
               <div class="modal-dialog" style="width:75em;margin:auto">
                 <div class="modal-content" style="overflow:auto;height:35em">
                   <div class="modal-header">
@@ -510,40 +510,39 @@
     <script src="../js/index.js"></script>
     <script>
 
-  $(document).ready(function() {
+$(document).ready(function() {
 
     $('#boton_tarjeta').click(function(){		
 		$('#modal_incidencia').modal('hide');
 		$('#modal_tarjeta').modal('show');
-		});		
+	});		
 	
 	
 	$('#boton_cambio').click(function(){	
 		$('#modal_incidencia').modal('hide');
 		$('#modal_cambio').modal('show');
-		});	
+	});	
 		
 	
 	$('#boton_gol').click(function(){	
 		$('#modal_incidencia').modal('hide');
 		$('#modal_gol').modal('show');
-		});	
+	});	
 		
 	$('#modal_tarjeta').on('hidden',function(){
 		$(this).data('modal', null);
-		});
+	});
 	
 	$('#modal_cambio').on('hidden',function(){
 		$(this).data('modal', null);
-		});
+	});
 
 	$('#modal_gol').on('hidden',function(){
 		$(this).data('modal', null);
-		});
+	});
 	
 	$('#modal_incidencia').on('hidden',function(){
 		 $(this).data('modal', null);
-		});
 	});
   	$("#partidos_registrados tr td.equipo").click(function(){
 		var partido_seleccionado = $(this).parent().attr("data-pid");
@@ -555,6 +554,24 @@
 		$("#formacion").attr('data-eid',equipo_seleccionado);
 		$("#incidencia").attr('data-eid',equipo_seleccionado);
 	});
+	
+	$("#formacion").click(function(){
+		if($(this).attr('data-pid')=="" || $(this).attr('data-eid')=="" ){
+			alert('seleccione un partido');
+		}else{
+			var eid = $(this).attr('data-eid');
+			$('.modal_alineacion[data-eid='+eid+']').modal('show')
+		}	
+	});
+	
+	$("#incidencia").click(function(){
+		if($(this).attr('data-pid')=="" || $(this).attr('data-eid')==""){
+			alert('seleccione un partido');
+		}else{
+			$('#modal_incidencia').modal('show')
+		}	
+	});
+});
     </script>
   </body>
 </html>
