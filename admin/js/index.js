@@ -15,15 +15,6 @@
 	
 
 	
-	$("#formacion").click(function(){
-		if($(this).attr('data-pid')==""){
-			alert('seleccione un partido');
-			}else{$('#myModal').modal('show')}
-		
-		});
-	
-
-	
 	$("#tab_partidos_jugados").on('shown.bs.tab',function(){
 		
 		$('#formacion').attr('disabled',"disabled");
